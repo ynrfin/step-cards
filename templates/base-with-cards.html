@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Progress App</title>
+        <link rel="stylesheet" href={{ url_for('static', filename='css/bootstrap.min.css') }} title="" type="text/css">
+    </head>
+    <body>
+        <div class="container-fluid" >
+            <div class="row" style="overflow:hidden">
+                <div class="col-2">
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="#">Laravel Cheatsheet</a>
+                        <a class="nav-link" href="#">Laravel Query Usage</a>
+                        <a class="nav-link" href="#">Django Cheatsheet</a>
+                        <a class="nav-link" href="#">Dockerize Laravel Project</a>
+                    </nav>
+                </div>
+                    <div class="col-10 d-flex flex-row flex-nowrap p-2" style='max-height:98vh;overflow-x:scroll;overflow-y:hidden'>
+                            {% for card in cards %}
+                        <div  class="col-4" style="width:666px;">
+                           <div class="card " style="max-height:95vh">
+                                <div class="card-header">
+                                    #
+                                </div>
+                                <div class="card-body" style="overflow-y:scroll">
+                                    {{ card }} 
+                                </div>
+                           </div> 
+                       </div>
+                            {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/jquery-3.4.1.slim.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+
