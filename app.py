@@ -46,10 +46,12 @@ def assign_cards(content):
     current_card = ""
 
     for elem in first_hr.next_siblings:
-        current_card = current_card + str(elem)
+
         if elem.name == "hr" :
             cards.append(current_card)
             current_card = ""
+        else:
+            current_card = current_card + str(elem)
 
     cards.append(current_card)
 
