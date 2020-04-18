@@ -22,6 +22,7 @@ def view_article():
 
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
+    return render_template('base-with-cards.html', cards=cards)
 
 def scan_for_file(filename):
     search_path = 'articles'
