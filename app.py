@@ -1,6 +1,6 @@
 import os, string
 import markdown
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
@@ -9,13 +9,17 @@ app.config.from_mapping(
     FLASK_ENV='development'
         )
 
-@app.route('/')
-def view_article():
+@app.route('/<path:filepath>')
+def view_article(filepath):
     # Scan for file name
-    filepath = scan_for_file('example.md')
-    
+
+    file_location = os.getcwd() + '/articles/' + filepath + ".md"
+    file_location = "articles/" + filepath + ".md"
+    if not os.path.exists(file_location):
+        abort(404, "Article not Found")
+
     # Parse 
-    md_conten = read_file_to_string(filepath)
+    md_conten = read_file_to_string(file_location)
 
     # Convert to HTML
     generated_html=  markdown.markdown(md_conten, extensions=['fenced_code'])
@@ -23,13 +27,6 @@ def view_article():
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
     return render_template('base-with-cards.html', cards=cards)
-
-def scan_for_file(filename):
-    search_path = 'articles'
-    for dirpath, dirnames, filenames in os.walk(search_path):
-        if filename in filenames:
-            return os.path.join(dirpath, filename)
-    return None
 
 def read_file_to_string(filepath):
     with open(filepath, 'r') as reader:
