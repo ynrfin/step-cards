@@ -2,6 +2,7 @@ import os, string
 import markdown
 from flask import Flask, render_template, abort
 from bs4 import BeautifulSoup
+import pathlib
 
 app = Flask(__name__)
 
@@ -14,7 +15,7 @@ def view_article(filepath):
     # Scan for file name
 
     file_location = os.getcwd() + '/articles/' + filepath + ".md"
-    file_location = "articles/" + filepath + ".md"
+    file_location = "articles/" + filepath
     if not os.path.exists(file_location):
         abort(404, "Article not Found")
 
@@ -26,7 +27,9 @@ def view_article(filepath):
 
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
-    return render_template('base-with-cards.html', cards=cards)
+
+    articles = scan_available_articles('articles')
+    return render_template('base-with-cards.html', cards=cards, articles_list=articles)
 
 def read_file_to_string(filepath):
     with open(filepath, 'r') as reader:
@@ -53,6 +56,24 @@ def assign_cards(content):
     cards.append(current_card)
 
     return cards
+
+def scan_available_articles(directory):
+    """
+    scan all files in the articles directory
+    returns list of file's relative path
+    """
+
+    articles_list = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.md'):
+                filepath = os.path.join(root, file)
+
+                p = pathlib.Path(filepath)
+                filepath = pathlib.Path(*p.parts[1:])
+                print(p.parts[1:])
+                articles_list.append(filepath)
+    return articles_list
 
 if __name__ == "__main__":
     app.run(debug=True)

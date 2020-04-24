@@ -11,10 +11,9 @@
             <div class="row" style="overflow:hidden">
                 <div class="col-2">
                     <nav class="nav flex-column">
-                        <a class="nav-link" href="#">Laravel Cheatsheet</a>
-                        <a class="nav-link" href="#">Laravel Query Usage</a>
-                        <a class="nav-link" href="#">Django Cheatsheet</a>
-                        <a class="nav-link" href="#">Dockerize Laravel Project</a>
+                            {% for link in articles_list %}
+                            <a class="nav-link" href="/{{ link }}">{{ link }}</a>
+                            {% endfor %}
                     </nav>
                 </div>
                     <div class="col-10 d-flex flex-row flex-nowrap p-2" style='max-height:98vh;overflow-x:scroll;overflow-y:hidden'>
