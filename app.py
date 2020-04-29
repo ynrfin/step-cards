@@ -23,13 +23,22 @@ def view_article(filepath):
     md_conten = read_file_to_string(file_location)
 
     # Convert to HTML
-    generated_html=  markdown.markdown(md_conten, extensions=['fenced_code'])
+    md = markdown.Markdown(extensions=['fenced_code', 'meta'])
+    generated_html = md.convert(md_conten)
+
+    # set title of the article from Markdown metadata
+    article_title = "-"
+    if "title" in md.Meta:
+        article_title = md.Meta['title'][0]
 
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
 
     articles = scan_available_articles('articles')
-    return render_template('base-with-cards.html', cards=cards, articles_list=articles)
+    return render_template('base-with-cards.html',
+            article_title = article_title,
+            cards=cards,
+            articles_list=articles)
 
 def read_file_to_string(filepath):
     with open(filepath, 'r') as reader:
@@ -71,7 +80,7 @@ def scan_available_articles(directory):
 
                 p = pathlib.Path(filepath)
                 filepath = pathlib.Path(*p.parts[1:])
-                print(p.parts[1:])
+                #print(p.parts[1:])
                 articles_list.append(filepath)
     return articles_list
 
