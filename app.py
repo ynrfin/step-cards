@@ -33,6 +33,7 @@ def view_article(filepath):
 
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
+    print(cards)
 
     articles = scan_available_articles('articles')
     return render_template('base-with-cards.html',
@@ -48,21 +49,21 @@ def read_file_to_string(filepath):
 def assign_cards(content):
     soup = BeautifulSoup(content,'html.parser')
 
-    first_hr = soup.hr
+    first_h1 = soup.h1
 
-    next_elem = first_hr.next_sibling
-    cards = []
+    next_elem = first_h1.next_sibling
+    cards = {}
+    current_title = first_h1.string
     current_card = ""
 
-    for elem in first_hr.next_siblings:
-
-        if elem.name == "hr" :
-            cards.append(current_card)
-            current_card = ""
+    for elem in first_h1.next_siblings:
+        if(elem.name == "h1"):
+            cards[current_title] = current_card
+            current_title = elem.string
+            #cards[current_title] = ""
         else:
             current_card = current_card + str(elem)
-
-    cards.append(current_card)
+        cards[current_title] = current_card
 
     return cards
 

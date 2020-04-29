@@ -25,14 +25,14 @@
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex flex-row flex-nowrap p-2" style='max-height:94vh;overflow-x:scroll;overflow-y:hidden'>
-                                {% for card in cards %}
+                                {% for title, body in cards.items() %}
                                     <div  class="col-4" style="width:666px;">
                                        <div class="card " style="max-height:95vh">
                                             <div class="card-header">
-                                                #
+                                                {{ title }}
                                             </div>
                                             <div class="card-body" style="overflow-y:scroll">
-                                                {{ card | safe }} 
+                                                {{ body | safe }}
                                             </div>
                                        </div> 
                                    </div>
