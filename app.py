@@ -23,7 +23,15 @@ def view_article(filepath):
     md_conten = read_file_to_string(file_location)
 
     # Convert to HTML
-    md = markdown.Markdown(extensions=['fenced_code', 'meta'])
+    md = markdown.Markdown(
+        extensions=['fenced_code', 'meta', 'codehilite'],
+        extension_configs={
+            'codehilite':{
+                'noclasses':True,
+                'pygments_style': 'solarizedlight'
+                }
+            }
+        )
     generated_html = md.convert(md_conten)
 
     # set title of the article from Markdown metadata
@@ -33,7 +41,6 @@ def view_article(filepath):
 
     # Separate HTML by <hr /> for card preparation
     cards = assign_cards(generated_html)
-    print(cards)
 
     articles = scan_available_articles('articles')
     return render_template('base-with-cards.html',
