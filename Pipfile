@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 markdown = "*"
 beautifulsoup4 = "*"
+pygments-style-solarized = "*"
 
 [requires]
 python_version = "3.8"
