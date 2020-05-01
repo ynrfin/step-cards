@@ -90,7 +90,7 @@ def scan_available_articles(directory):
                 filepath = pathlib.Path(*p.parts[1:])
                 #print(p.parts[1:])
                 articles_list.append(filepath)
-    return articles_list
+    return sorted(articles_list)
 
 if __name__ == "__main__":
     app.run(debug=True)
