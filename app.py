@@ -67,6 +67,7 @@ def assign_cards(content):
         if(elem.name == "h1"):
             cards[current_title] = current_card
             current_title = elem.string
+            current_card = ""
             #cards[current_title] = ""
         else:
             current_card = current_card + str(elem)
